@@ -47,7 +47,7 @@ def run_demo():
     print 'Loading model to detect BMI of %s...' % single_or_multiple
 
     NUMBER_OF_FRAMES_IN_AVG = 20
-    WEIGHTS_FILE = 'model_weights.h5'
+    WEIGHTS_FILE = 'all_layers_trained_weights.41-4.39.h5'
 
     detector = dlib.get_frontal_face_detector()
     model = get_model(ignore_age_weights=True)

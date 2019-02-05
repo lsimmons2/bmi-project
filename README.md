@@ -4,6 +4,7 @@ This repo accompanies the blog post [Making a BMI Classifier with Keras and Tran
 
 1. Clone this repo
 2. Make sure requirements in `requirements.txt` are installed
-3. `python demo.py`
+3. Download [the trained model weights](https://drive.google.com/open?id=109ghi5PWJZetOAQJeLBYjfmAFzJv6ly9) and put file in the repo directory
+4. `python demo.py`
 
 If you have more than one face in the frame of your video camera, run the script with the `--multiple` flag, or else the results will be off.
