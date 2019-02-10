@@ -11,8 +11,14 @@ import config
 
 
 
-def draw_label(image, point, label, font=cv2.FONT_HERSHEY_SIMPLEX,
-               font_scale=1, thickness=2):
+def get_trained_model():
+    weights_file = 'bmi_model_weights.h5'
+    model = get_model(ignore_age_weights=True)
+    model.load_weights(weights_file)
+    return model
+
+
+def draw_label(image, point, label, font=cv2.FONT_HERSHEY_SIMPLEX, font_scale=1, thickness=2):
     size = cv2.getTextSize(label, font, font_scale, thickness)[0]
     x, y = point
     cv2.rectangle(image, (x, y - size[1]), (x + size[0], y), (255, 0, 0), cv2.FILLED)
@@ -44,15 +50,12 @@ def run_demo():
     args = sys.argv[1:]
     multiple_targets = '--multiple' in args
     single_or_multiple = 'multiple faces' if multiple_targets else 'single face'
+    model = get_trained_model()
     print 'Loading model to detect BMI of %s...' % single_or_multiple
 
     NUMBER_OF_FRAMES_IN_AVG = 20
-    WEIGHTS_FILE = 'all_layers_trained_weights.41-4.39.h5'
-
-    detector = dlib.get_frontal_face_detector()
-    model = get_model(ignore_age_weights=True)
-    model.load_weights(WEIGHTS_FILE)
     last_seen_bmis = []
+    detector = dlib.get_frontal_face_detector()
 
     for img in yield_images_from_camera():
         input_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -92,6 +95,7 @@ def run_demo():
 
         if key == 27:  # ESC
             break
+
 
 if __name__ == '__main__':
     run_demo()
