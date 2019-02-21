@@ -18,6 +18,10 @@ def get_mae(actual, predicted):
 
 class MAECallback(Callback):
 
+    def __init__(self, img_size):
+        super(MAECallback, self).__init__()
+        self.img_size = img_size
+
 
     def on_train_begin(self, logs={}):
         self._data = []
@@ -33,12 +37,8 @@ class MAECallback(Callback):
             test_y.append(bmi)
             file_name = info.split(',')[4]
             file_path = '%s/%s' % (config.CROPPED_IMGS_DIR, file_name)
-            print
-            print
-            print
-            print file_path
             img = cv2.imread(file_path)
-            img = cv2.resize(img, (config.RESNET50_DEFAULT_IMG_WIDTH,config.RESNET50_DEFAULT_IMG_WIDTH))
+            img = cv2.resize(img, self.img_size)
             test_x.append(img/255.00)
         X_val = np.array(test_x)
         y_val = np.array(test_y)
