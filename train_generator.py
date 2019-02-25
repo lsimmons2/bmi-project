@@ -44,21 +44,3 @@ image_processor = ImageDataGenerator(
     rescale=1./255,
     preprocessing_function=augment_image
 )
-
-# subtract validation size from training data
-with open(config.CROPPED_IMGS_INFO_FILE) as f:
-    for i, _ in enumerate(f):
-        pass
-    training_n = i - config.VALIDATION_SIZE
-
-train_df=pd.read_csv(config.CROPPED_IMGS_INFO_FILE, nrows=training_n)
-
-train_generator=image_processor.flow_from_dataframe(
-    dataframe=train_df,
-    directory=config.CROPPED_IMGS_DIR,
-    x_col='name',
-    y_col='bmi',
-    class_mode='other',
-    color_mode='rgb',
-    target_size=(config.RESNET50_DEFAULT_IMG_WIDTH,config.RESNET50_DEFAULT_IMG_WIDTH),
-    batch_size=config.TRAIN_BATCH_SIZE)
