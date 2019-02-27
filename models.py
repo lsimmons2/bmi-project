@@ -2,10 +2,15 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
 
-from tensorflow.python.keras.models import Model
-from tensorflow.python.keras.applications import ResNet50
-from tensorflow.python.keras.layers import Dense
+from keras.models import Model
+from keras.applications import ResNet50
+from keras.layers import Dense
 import config
+from keras.models import Model
+from keras.layers import Dense
+from transfer_models.ssr_net import SSR_net
+from transfer_models.nasnet import mobile
+# from transfer_models.xceptionnet import Xception
 
 def get_age_model():
 
@@ -30,7 +35,7 @@ def get_resnet50(ignore_age_weights=False):
 
     base_model = get_age_model()
     if not ignore_age_weights:
-        base_model.load_weights(config.AGE_TRAINED_WEIGHTS_FILE)
+        base_model.load_weights(config.RESNET50_AGE_WEIGHTS)
         print 'Loaded weights from age classifier'
     last_hidden_layer = base_model.get_layer(index=-2)
 
@@ -72,18 +77,17 @@ lambda_d = 1
 
 
 # INCEPTION_RESNET_V2
-# from keras.applications.inception_resnet_v2 import InceptionResNetV2
-# base_model = InceptionResNetV2()
-# last_hidden_layer = base_model.get_layer(index=-2)
-# base_model = Model(
-    # inputs=base_model.input,
-    # outputs=last_hidden_layer.output)
-# prediction = Dense(1, kernel_initializer='normal')(base_model.output)
-# model = Model(inputs=base_model.input, outputs=prediction)
-# model_name = 'INCEPTION_RESNET_V2'
-# trainer = ModelTrainer(model, model_name)
-# trainer.train_top_layer()
-# trainer.train_all_layers()
+
+def get_inception_resnet_v2():
+    from keras.applications.inception_resnet_v2 import InceptionResNetV2
+    base_model = InceptionResNetV2()
+    last_hidden_layer = base_model.get_layer(index=-2)
+    base_model = Model(
+        inputs=base_model.input,
+        outputs=last_hidden_layer.output)
+    prediction = Dense(1, kernel_initializer='normal')(base_model.output)
+    model = Model(inputs=base_model.input, outputs=prediction)
+    return model
 
 # base_model = Xception
 # print base_model.layers[-1]
