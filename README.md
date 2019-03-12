@@ -4,7 +4,7 @@ This repo accompanies the blog post [Estimating Body Mass Index from Face Images
 
 1. Clone this repo
 2. Make sure requirements in `requirements.txt` are installed
-3. Download [the trained model weights](https://drive.google.com/open?id=1BhuXcgr0kRyyfILM9D_hlMRBF-SkyCeH) and put file in the repo directory
+3. Download [the trained model weights](https://drive.google.com/open?id=1cOkj2Ivrpo_siGDtsNSZGDnh0NRcQUzw) and put file in the repo directory
 4. `python demo.py`
 
 If you have more than one face in the frame of your video camera, run the script with the `--multiple` flag, or else the results will be off.
